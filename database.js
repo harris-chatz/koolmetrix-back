@@ -16,6 +16,7 @@ const db = new sqlite3.Database(dbName, (err) => {
         else   {
             console.log("Table created or existed")
         }
+    }
     });
 
 module.exports = db;

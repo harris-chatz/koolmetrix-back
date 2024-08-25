@@ -1,9 +1,9 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
-
 const app = express();
 const port = 3000;
+const cors = require('cors');
 
 // Middleware
 app.use(bodyParser.json());
@@ -37,13 +37,13 @@ app.post('/users', (req, res) => {
         if (err) {
             res.status(500).json({ error: err.message });
         } else {
-            res.json({ id: this.lastID });
+            res.json({ id: this.lastID, name, email, address });
         }
     });
 });
 
 // READ ALL USERS
-app.get('/users', (req, res) => {
+app.get('/users', cors(), (req, res) => {
     const sql = 'SELECT * FROM users';
     db.all(sql, [], (err, rows) => {
         if (err) {
@@ -103,4 +103,4 @@ app.delete('/users/:id', (req, res) => {
 // START SERVER
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
-});
+})
